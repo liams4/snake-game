@@ -7,10 +7,11 @@ def run_game():
     pygame.init()
     game_settings = Settings()
 
+    # initialize screen
     screen = pygame.display.set_mode((game_settings.x_dim, game_settings.y_dim))
     pygame.display.set_caption(game_settings.title)
-    
     background_color = [250, 250, 250]
+
     # create snake
     snake = Snake(screen, game_settings)
 
