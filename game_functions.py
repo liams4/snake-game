@@ -1,5 +1,6 @@
 import pygame
 import sys
+from settings import Settings
 
 # This class contains functions that are used to help run snake-game.
 
@@ -23,3 +24,13 @@ def respond_to_input(snake):
                     elif event.key == pygame.K_LEFT:
                         snake.xdirection = -1  
                         snake.ydirection = 0 
+    
+
+def check_valid_position(snake_head, positions):
+    game_settings = Settings()
+    if (positions[0] in positions[1:] or 
+            snake_head.rect.centerx < 0 or 
+            snake_head.rect.centerx > game_settings.x_dim or 
+            snake_head.rect.centery < 0 or 
+            snake_head.rect.centery > game_settings.y_dim):
+            sys.exit()
