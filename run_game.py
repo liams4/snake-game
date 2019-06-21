@@ -1,8 +1,8 @@
-import sys
 import pygame
 from settings import Settings
 from snake import SnakeHead, SnakeBody
-from game_functions import respond_to_input
+from game_functions import *
+from food import Food
 
 def run_game():
     pygame.init()
@@ -14,27 +14,31 @@ def run_game():
     snake_head = SnakeHead(screen, game_settings)
 
     positions = [[snake_head.rect.centerx, snake_head.rect.centery]]
-    for i in range(game_settings.starting_body_length):
+    for i in range(game_settings.length):
         positions.append([positions[i][0] - 15, snake_head.rect.centery])
+    
+    food = Food(screen)
+    food.draw_image()
+    score = 0
 
     while True:
         screen.fill(background_color)
         respond_to_input(snake_head)
         snake_head.update(positions)
         snake_head.draw_image()
-        
+        food.draw_image()
         for position in positions[1:]:
             body_segment = SnakeBody(screen, game_settings, position[0], position[1])
             body_segment.draw_image()
 
-        if (positions[0] in positions[1:] or 
-            snake_head.rect.centerx < 0 or 
-            snake_head.rect.centerx > game_settings.x_dim or 
-            snake_head.rect.centery < 0 or 
-            snake_head.rect.centery > game_settings.y_dim):
-            sys.exit()
-
-        # if any of the positions match, or if the x or y are outside of certain values
+        check_valid_position(snake_head, positions)
+        if pygame.sprite.collide_rect(snake_head, food):
+            score += 1
+            food = Food(screen)
+            food.draw_image()
+            game_settings.length += 1
+        print(score)
+        print(game_settings.length)
 
         pygame.display.flip()
 
