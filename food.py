@@ -1,11 +1,15 @@
 import pygame
 from random import randint
 from pygame.sprite import Sprite
+
 from settings import Settings
 
-# This class represents the food in snake-game.
 class Food(Sprite):
-
+    """This class represents the food in snake-game.
+    
+    Args:
+        Sprite ([type]): [description]
+    """
     def __init__(self, screen):
         game_settings = Settings()
 
@@ -16,7 +20,7 @@ class Food(Sprite):
         self.rect.centerx = randint(0, game_settings.x_dim)
         self.rect.centery = randint(0, game_settings.y_dim)
 
-
-# Draws the food on the screen.
     def draw_image(self):
+        """Draws the food on the screen.
+        """
         self.screen.blit(self.image, self.rect)
